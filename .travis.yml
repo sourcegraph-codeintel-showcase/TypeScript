@@ -17,10 +17,7 @@ matrix:
       script:
         - yarn
         - for d in src/shims src/tsc src/tsserver src/typingsInstaller src/watchGuard src/debug src/cancellationToken src/testRunner; do
-        -   cd $d
-        -   lsif-tsc -p .
-        -   ../../src-cli lsif upload
-        -   cd -
+        -   cd $d && lsif-tsc -p . && ../../src-cli lsif upload
         - done
 
 branches:
