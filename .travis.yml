@@ -16,9 +16,14 @@ matrix:
       go: 1.14.x
       script:
         - yarn
-        - for d in src/shims src/tsc src/tsserver src/typingsInstaller src/watchGuard src/debug src/cancellationToken src/testRunner; do
-        -   cd $d && lsif-tsc -p . && ../../src-cli lsif upload
-        - done
+        - cd src/shims && lsif-tsc -p . && ../../src-cli lsif upload && cd -
+        - cd src/tsc && lsif-tsc -p . && ../../src-cli lsif upload && cd -
+        - cd src/tsserver && lsif-tsc -p . && ../../src-cli lsif upload && cd -
+        - cd src/typingsInstaller && lsif-tsc -p . && ../../src-cli lsif upload && cd -
+        - cd src/watchGuard && lsif-tsc -p . && ../../src-cli lsif upload && cd -
+        - cd src/debug && lsif-tsc -p . && ../../src-cli lsif upload && cd -
+        - cd src/cancellationToken && lsif-tsc -p . && ../../src-cli lsif upload && cd -
+        - cd src/testRunner && lsif-tsc -p . && ../../src-cli lsif upload && cd -
 
 branches:
   only:
