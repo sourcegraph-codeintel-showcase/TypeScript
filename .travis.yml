@@ -11,19 +11,30 @@ env:
 matrix:
   fast_finish: true
   include:
-    - name: lsif index
-      os: linux
-      go: 1.14.x
+    - name: lsif index shims
       script:
-        - yarn
-        - cd src/shims && lsif-tsc -p . && ../../src-cli lsif upload && cd -
-        - cd src/tsc && lsif-tsc -p . && ../../src-cli lsif upload && cd -
-        - cd src/tsserver && lsif-tsc -p . && ../../src-cli lsif upload && cd -
-        - cd src/typingsInstaller && lsif-tsc -p . && ../../src-cli lsif upload && cd -
-        - cd src/watchGuard && lsif-tsc -p . && ../../src-cli lsif upload && cd -
-        - cd src/debug && lsif-tsc -p . && ../../src-cli lsif upload && cd -
-        - cd src/cancellationToken && lsif-tsc -p . && ../../src-cli lsif upload && cd -
-        - cd src/testRunner && lsif-tsc -p . && ../../src-cli lsif upload && cd -
+        - cd src/shims && lsif-tsc -p . && ../../src-cli lsif upload
+    - name: lsif index tsc
+      script:
+        - cd src/tsc && lsif-tsc -p . && ../../src-cli lsif upload
+    - name: lsif index tsserver
+      script:
+        - cd src/tsserver && lsif-tsc -p . && ../../src-cli lsif upload
+    - name: lsif index typingsInstaller
+      script:
+        - cd src/typingsInstaller && lsif-tsc -p . && ../../src-cli lsif upload
+    - name: lsif index watchGuard
+      script:
+        - cd src/watchGuard && lsif-tsc -p . && ../../src-cli lsif upload
+    - name: lsif index debug
+      script:
+        - cd src/debug && lsif-tsc -p . && ../../src-cli lsif upload
+    - name: lsif index cancellationToken
+      script:
+        - cd src/cancellationToken && lsif-tsc -p . && ../../src-cli lsif upload
+    - name: lsif index testRunner
+      script:
+        - cd src/testRunner && lsif-tsc -p . && ../../src-cli lsif upload
 
 branches:
   only:
