@@ -26,6 +26,7 @@ matrix:
 branches:
   only:
   - master
+  - upload-lsif
   - /^release-.*/
 
 install:
