@@ -12,16 +12,16 @@ matrix:
   fast_finish: true
   include:
     - name: lsif index
-    os: linux
-    go: 1.14.x
-    script:
-      - yarn
-      - for d in src/shims src/tsc src/tsserver src/typingsInstaller src/watchGuard src/debug src/cancellationToken src/testRunner; do
-      -   cd $d
-      -   lsif-tsc -p .
-      -   src lsif upload
-      -   cd -
-      - done
+      os: linux
+      go: 1.14.x
+      script:
+        - yarn
+        - for d in src/shims src/tsc src/tsserver src/typingsInstaller src/watchGuard src/debug src/cancellationToken src/testRunner; do
+        -   cd $d
+        -   lsif-tsc -p .
+        -   ../../src-cli lsif upload
+        -   cd -
+        - done
 
 branches:
   only:
@@ -32,6 +32,10 @@ branches:
 install:
   - npm uninstall typescript --no-save
   - npm install
+  - npm install -g @sourcegraph/lsif-tsc
+  # Download src-cli (cannot download in current directory as `src` as it's already a directory)
+  - curl -L https://github.com/sourcegraph/src-cli/releases/download/3.10.13/src_linux_amd64 -o ./src-cli
+  - chmod +x ./src-cli
 
 cache:
   directories:
