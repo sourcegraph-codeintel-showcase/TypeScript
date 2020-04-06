@@ -10,6 +10,18 @@ env:
 
 matrix:
   fast_finish: true
+  include:
+    - name: lsif index
+    os: linux
+    go: 1.14.x
+    script:
+      - yarn
+      - for d in src/shims src/tsc src/tsserver src/typingsInstaller src/watchGuard src/debug src/cancellationToken src/testRunner; do
+      -   cd $d
+      -   lsif-tsc -p .
+      -   src lsif upload
+      -   cd -
+      - done
 
 branches:
   only:
