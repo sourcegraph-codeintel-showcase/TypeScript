@@ -1,28 +1,147 @@
 language: node_js
 
-node_js:
-  - 'node'
-  - '10'
-  - '8'
-
-env:
-  - workerCount=3 timeout=600000
-
-matrix:
-  fast_finish: true
-
-branches:
-  only:
-  - master
-  - /^release-.*/
-
+git:
+  depth: 1
+        
 install:
+  - npm install -g @sourcegraph/lsif-tsc@0.6.0
+  # Download src-cli as ./src-cli (not ./src) to avoid clash with src/ directory
+  - curl -L https://github.com/sourcegraph/src-cli/releases/download/3.16.0/src_linux_amd64 -o ./src-cli
+  - chmod +x ./src-cli
   - npm uninstall typescript --no-save
   - npm install
 
-cache:
-  directories:
-    - node_modules
-
-git:
-  depth: 1
+jobs:
+  include:
+    - name: Index and upload LSIF data to sourcegraph.com (./scripts/importDefinitelyTypedTests)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./scripts/importDefinitelyTypedTests/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root scripts/importDefinitelyTypedTests
+    - name: Index and upload LSIF data to sourcegraph.com (./scripts)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./scripts/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root scripts
+    - name: Index and upload LSIF data to sourcegraph.com (./scripts/eslint)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./scripts/eslint/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root scripts/eslint
+    - name: Index and upload LSIF data to sourcegraph.com (./src/testRunner)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/testRunner/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/testRunner
+    - name: Index and upload LSIF data to sourcegraph.com (./src/tsserver)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/tsserver/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/tsserver
+    - name: Index and upload LSIF data to sourcegraph.com (./src/compat)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/compat/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/compat
+    - name: Index and upload LSIF data to sourcegraph.com (./src/typingsInstallerCore)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/typingsInstallerCore/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/typingsInstallerCore
+    - name: Index and upload LSIF data to sourcegraph.com (./src/tsserverlibrary)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/tsserverlibrary/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/tsserverlibrary
+    - name: Index and upload LSIF data to sourcegraph.com (./src/tsc)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/tsc/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/tsc
+    - name: Index and upload LSIF data to sourcegraph.com (./src/server)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/server/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/server
+    - name: Index and upload LSIF data to sourcegraph.com (./src/instrumenter)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/instrumenter/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/instrumenter
+    - name: Index and upload LSIF data to sourcegraph.com (./src/harness)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/harness/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/harness
+    - name: Index and upload LSIF data to sourcegraph.com (./src/watchGuard)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/watchGuard/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/watchGuard
+    - name: Index and upload LSIF data to sourcegraph.com (./src/cancellationToken)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/cancellationToken/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/cancellationToken
+    - name: Index and upload LSIF data to sourcegraph.com (./src/shims)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/shims/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/shims
+    - name: Index and upload LSIF data to sourcegraph.com (./src/typescriptServices)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/typescriptServices/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/typescriptServices
+    - name: Index and upload LSIF data to sourcegraph.com (./src/jsTyping)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/jsTyping/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/jsTyping
+    - name: Index and upload LSIF data to sourcegraph.com (./src/executeCommandLine)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/executeCommandLine/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/executeCommandLine
+    - name: Index and upload LSIF data to sourcegraph.com (./src/typingsInstaller)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/typingsInstaller/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/typingsInstaller
+    - name: Index and upload LSIF data to sourcegraph.com (./src/compiler)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/compiler/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/compiler
+    - name: Index and upload LSIF data to sourcegraph.com (./src/services)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/services/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/services
+    - name: Index and upload LSIF data to sourcegraph.com (./src/debug)
+      os: linux
+      node_js: "13"
+      script:
+        - lsif-tsc -p ./src/debug/tsconfig.json
+        - ./src-cli lsif upload -no-progress -root src/debug
